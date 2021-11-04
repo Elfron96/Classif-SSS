@@ -8,7 +8,8 @@ import scipy.io
 import scipy.signal
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from roipoly import roipoly 
+from roipoly import roipoly
+
 from displayImageLabel import displayImageLabel
 from cptPatchesStats import cptPatchesStats
 from scipy.io import loadmat
@@ -120,13 +121,48 @@ plt.figure()
 label_plot, plot =  displayImageLabel(Y, data_img)
 #%% Correction de l'image par moyennage simple et affichage
 
+moy = np.mean(data_img, axis = 0)
+
 # correction
+img_corrige_moy = data_img / moy
+plt.figure()
+
+plt.title("Affichage de l'image initiale")
+plt.imshow(data_img, aspect = "auto")
+plt.xlabel("Échantillon")
+plt.ylabel("Pings")
+plt.colorbar(label ="BS [dB]")
+
+plt.figure()
+plt.plot(moy)
+plt.xlabel("Échantillon")
+plt.ylabel("Moyenne sur l'ensemble des pings")
+plt.title("Evolution de la moyenne sur l'ensemble des pings en fonction du numéro d'échantillon")
+
+plt.figure()
+plt.imshow(img_corrige_moy)
+plt.title("Image corrigée de la moyenne")
+plt.xlabel("Échantillon")
+plt.ylabel("Moyenne sur l'ensemble des pings")
+plt.colorbar(label =  "Backscatter [dB]")
+
+plt.figure()
+plt.plot(np.mean(img_corrige_moy, axis = 0))
+plt.xlabel("Numéro d'échantillon")
+plt.ylabel("Moyenne sur l'ensemble des pings")
+plt.title("Evolution de la moyenne sur l'ensemble des pings en fonction du numéro d'échantillon sur l'image corrigé")
 
 
 # classification
     
+N_corr_moyenne = img_corrige_moy.reshape((img_corrige_moy.size, 1))
+
+model_kmeans.fit(N_corr_moyenne)
+Y_corr_moy = model_kmeans.predict(N_corr_moyenne)
 
 
+plt.figure()
+label_plot, plot =  displayImageLabel(Y_corr_moy,img_corrige_moy)
 
 
 
