@@ -14,6 +14,8 @@ from displayImageLabel import displayImageLabel
 from cptPatchesStats import cptPatchesStats
 from scipy.io import loadmat
 from kneed import *
+
+from selectClassArea import selectClassArea
 plt.ioff()
 
 
@@ -164,11 +166,16 @@ Y_corr_moy = model_kmeans.predict(N_corr_moyenne)
 plt.figure()
 label_plot, plot =  displayImageLabel(Y_corr_moy,img_corrige_moy)
 
-
+plt.show()
 
 
 #%% Classification supervisée
 
+imgClassNum,roi = selectClassArea(img_corrige_moy)
+
+plt.figure()
+plt.imshow(imgClassNum)
+plt.show()
 
 # Affichage de l'image corrigée
 
@@ -197,4 +204,3 @@ label_plot, plot =  displayImageLabel(Y_corr_moy,img_corrige_moy)
 
 
 
-plt.show()
