@@ -171,11 +171,16 @@ plt.show()
 
 #%% Classification supervisée
 
-imgClassNum,roi = selectClassArea(img_corrige_moy)
+# imgClassNum,roi = selectClassArea(img_corrige_moy)
 
-plt.figure()
-plt.imshow(imgClassNum)
-plt.show()
+# plt.figure()
+# plt.imshow(imgClassNum)
+# plt.show()
+
+# np.save("num_class", imgClassNum)
+with open('num_class.npy', 'rb') as f:
+
+    mat_filtre = np.load(f)
 
 # Affichage de l'image corrigée
 
@@ -187,7 +192,13 @@ plt.show()
 
 #%% Affichage des histogrammes et histo cumulé
 
-
+res = np.zeros(mat_filtre.shape)
+for i in range(img_corrige_moy.shape[0]):
+    for j in range(img_corrige_moy.shape[1]):
+        res[i,j] = img_corrige_moy[i,j]*mat_filtre[i,j]
+# plt.figure()
+# plt.hist(mat_filtre@img_corrige_moy)
+# plt.show()
 
 #%% Calcul des descripteurs stats
 
