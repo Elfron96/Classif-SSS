@@ -239,18 +239,32 @@ if image_plot:
 
 plt.show()
 
-#%% Calcul des descripteurs stats
-feat, patchesParams = cptPatchesStats(img_corrige_moy,[128,128],[32,32])
+#%% Calcul des descripteurs stats et calcul des features
+feat, patchParams = cptPatchesStats(img_corrige_moy,[128,128],[32,32])
 
-## calcul des features
+
+
 
 
 # classification par kmeans
 
+    
+N = feat[:,0:3]# Size prend le nombre d'éléments dans la matrice (à ne pas confondre avec shape)
+# Nech = N[::50]
+# print(N.shape)
+## Test sur un sous échantillon 
+# Application du K-Means : 
+model_kmeans = KMeans(n_clusters = 4, n_init=20)
+model_kmeans.fit(N)
+print(model_kmeans.labels_.shape)
 
 
 
-
-
-
-
+# calcul de la position des centres
+plt.figure()
+plt.imshow(img_corrige_moy)
+y = np.mean(patchParams[:,0:2],axis=1)
+x = np.mean(patchParams[:,2:4],axis=1)
+# affichage
+plt.scatter(x,y,s=20,c=model_kmeans.labels_)
+plt.show()
