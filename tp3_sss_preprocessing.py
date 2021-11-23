@@ -19,7 +19,7 @@ from kneed import *
 from selectClassArea import selectClassArea
 plt.ioff()
 
-image_plot = False
+image_plot = 1
 
 #%% Partie 1
 
@@ -105,7 +105,7 @@ if image_plot:
 #%% On enleve colonne d'eau et classification
 
 data_img = data_img[:,320:]
-print(data_img.shape)
+# print(data_img.shape)
 N = data_img.reshape((data_img.size, 1))# Size prend le nombre d'éléments dans la matrice (à ne pas confondre avec shape)
 Nech = N[::50]
 Yech = model_kmeans.predict(Nech)
@@ -179,92 +179,92 @@ if image_plot:
 
 #%% Classification supervisée
 
-# imgClassNum,roi = selectClassArea(img_corrige_moy)
+# # imgClassNum,roi = selectClassArea(img_corrige_moy)
 
-# plt.figure()
-# plt.imshow(imgClassNum)
+# # plt.figure()
+# # plt.imshow(imgClassNum)
+# # plt.show()
+
+# # np.save("num_class", imgClassNum)
+# with open('num_class.npy', 'rb') as f:
+
+#     mat_filtre = np.load(f)
+
+# # Affichage de l'image corrigée
+
+
+# # segmentation manuelle
+
+
+
+
+# #%% Affichage des histogrammes et histo cumulé
+
+# res = np.zeros(mat_filtre.shape)
+# A=[]
+# B=[]
+# C=[]
+# D=[]
+# for i in range(img_corrige_moy.shape[0]):
+#     for j in range(img_corrige_moy.shape[1]):
+#             if mat_filtre[i,j] == 0:
+#                 A.append(img_corrige_moy[i,j])
+#             if mat_filtre[i,j] == 1:
+#                 B.append(img_corrige_moy[i,j])
+#             if mat_filtre[i,j] == 2:
+#                 C.append(img_corrige_moy[i,j])
+#             else:
+#                 D.append(img_corrige_moy[i,j])
+# A,B,C,D = np.array(A),np.array(B),np.array(C),np.array(D)
+# if image_plot:
+#     fig = plt.figure()
+#     ax = fig.add_subplot(211)
+#     ax.set_xlim(0,5)
+#     sns.histplot(data=A, kde=True, bins=100,stat="density",color='blue')
+#     sns.histplot(data=B, kde=True, bins=100,stat="density",color='green')
+#     sns.histplot(data=C, kde=True, bins=100,stat="density",color='red')
+#     sns.histplot(data=D, kde=True, bins=100,stat="density",color='purple')
+#     # plt.hist(A,bins=100,density=True,label='Histogramme de la classe A',cumulative=True)
+#     # plt.hist(B,bins=100,density=True,label='Histogramme de la classe B',cumulative=True)
+#     # plt.hist(C,bins=100,density=True,label='Histogramme de la classe C',cumulative=True)
+#     # plt.hist(D,bins=100,density=True,label='Histogramme de la classe D',cumulative=True)
+#     ax= fig.add_subplot(212)
+#     sns.histplot(data=A, kde=True, bins=100,stat="density",color='blue',cumulative=True)
+#     sns.histplot(data=B, kde=True, bins=100,stat="density",color='green',cumulative=True)
+#     sns.histplot(data=C, kde=True, bins=100,stat="density",color='red',cumulative=True)
+#     sns.histplot(data=D, kde=True, bins=100,stat="density",color='purple',cumulative=True)
+
+#     plt.legend()
+#     plt.title("Histogrammes et densités de probabilitées")
+
 # plt.show()
 
-# np.save("num_class", imgClassNum)
-with open('num_class.npy', 'rb') as f:
-
-    mat_filtre = np.load(f)
-
-# Affichage de l'image corrigée
-
-
-# segmentation manuelle
-
-
-
-
-#%% Affichage des histogrammes et histo cumulé
-
-res = np.zeros(mat_filtre.shape)
-A=[]
-B=[]
-C=[]
-D=[]
-for i in range(img_corrige_moy.shape[0]):
-    for j in range(img_corrige_moy.shape[1]):
-            if mat_filtre[i,j] == 0:
-                A.append(img_corrige_moy[i,j])
-            if mat_filtre[i,j] == 1:
-                B.append(img_corrige_moy[i,j])
-            if mat_filtre[i,j] == 2:
-                C.append(img_corrige_moy[i,j])
-            else:
-                D.append(img_corrige_moy[i,j])
-A,B,C,D = np.array(A),np.array(B),np.array(C),np.array(D)
-if image_plot:
-    fig = plt.figure()
-    ax = fig.add_subplot(211)
-    ax.set_xlim(0,5)
-    sns.histplot(data=A, kde=True, bins=100,stat="density",color='blue')
-    sns.histplot(data=B, kde=True, bins=100,stat="density",color='green')
-    sns.histplot(data=C, kde=True, bins=100,stat="density",color='red')
-    sns.histplot(data=D, kde=True, bins=100,stat="density",color='purple')
-    # plt.hist(A,bins=100,density=True,label='Histogramme de la classe A',cumulative=True)
-    # plt.hist(B,bins=100,density=True,label='Histogramme de la classe B',cumulative=True)
-    # plt.hist(C,bins=100,density=True,label='Histogramme de la classe C',cumulative=True)
-    # plt.hist(D,bins=100,density=True,label='Histogramme de la classe D',cumulative=True)
-    ax= fig.add_subplot(212)
-    sns.histplot(data=A, kde=True, bins=100,stat="density",color='blue',cumulative=True)
-    sns.histplot(data=B, kde=True, bins=100,stat="density",color='green',cumulative=True)
-    sns.histplot(data=C, kde=True, bins=100,stat="density",color='red',cumulative=True)
-    sns.histplot(data=D, kde=True, bins=100,stat="density",color='purple',cumulative=True)
-
-    plt.legend()
-    plt.title("Histogrammes et densités de probabilitées")
-
-plt.show()
-
-#%% Calcul des descripteurs stats et calcul des features
-feat, patchParams = cptPatchesStats(img_corrige_moy,[128,128],[32,32])
+# #%% Calcul des descripteurs stats et calcul des features
+# feat, patchParams = cptPatchesStats(img_corrige_moy,[128,128],[32,32])
 
 
 
 
 
-# classification par kmeans
+# # classification par kmeans
 
     
-N = feat[:,0:3]# Size prend le nombre d'éléments dans la matrice (à ne pas confondre avec shape)
-# Nech = N[::50]
-# print(N.shape)
-## Test sur un sous échantillon 
-# Application du K-Means : 
-model_kmeans = KMeans(n_clusters = 4, n_init=20)
-model_kmeans.fit(N)
-print(model_kmeans.labels_.shape)
+# N = feat[:,0:3]# Size prend le nombre d'éléments dans la matrice (à ne pas confondre avec shape)
+# # Nech = N[::50]
+# # print(N.shape)
+# ## Test sur un sous échantillon 
+# # Application du K-Means : 
+# model_kmeans = KMeans(n_clusters = 4, n_init=20)
+# model_kmeans.fit(N)
+# print(model_kmeans.labels_.shape)
 
 
 
-# calcul de la position des centres
-plt.figure()
-plt.imshow(img_corrige_moy)
-y = np.mean(patchParams[:,0:2],axis=1)
-x = np.mean(patchParams[:,2:4],axis=1)
-# affichage
-plt.scatter(x,y,s=20,c=model_kmeans.labels_)
-plt.show()
+# # calcul de la position des centres
+# plt.figure()
+# plt.imshow(img_corrige_moy)
+# y = np.mean(patchParams[:,0:2],axis=1)
+# x = np.mean(patchParams[:,2:4],axis=1)
+# # affichage
+# plt.scatter(x,y,s=20,c=model_kmeans.labels_)
+# plt.show()
